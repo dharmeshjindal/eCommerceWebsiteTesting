@@ -31,8 +31,8 @@ public class AddItemToCart extends TestBase{
 	@FindBy(xpath = "//a[text()='Home ']") //(//a[@class='nav-link'])[1]
 	WebElement LinkToHomePage;
 	
-	@FindBy(css = "h1.h4")
-	WebElement header;
+	@FindBy(xpath = "//button[@class='btn btn-success']")
+	WebElement PlaceOrderButton;
 	
 	public  AddItemToCart() {
 		PageFactory.initElements(driver, this);
@@ -123,6 +123,41 @@ public class AddItemToCart extends TestBase{
 	public void deleteItemFromCart() throws InterruptedException {
 		driver.findElement(By.xpath("//tbody[@id = 'tbodyid']/tr[1]/td[4]/a")).click();
 		Thread.sleep(2000);
+	}
+	
+	public void placeOrder() throws InterruptedException {
+		
+		Thread.sleep(2000);
+		
+		PlaceOrderButton.click();
+		
+		Thread.sleep(2000);
+		
+		driver.findElement(By.xpath("//input[@id='name']")).sendKeys("Test");
+		driver.findElement(By.xpath("//input[@id='country']")).sendKeys("India");
+		driver.findElement(By.xpath("//input[@id='city']")).sendKeys("Lucknow");
+		driver.findElement(By.xpath("//input[@id='card']")).sendKeys("1111 0000 1010"); 
+		driver.findElement(By.xpath("//input[@id='month']")).sendKeys("07");
+		driver.findElement(By.xpath("//input[@id='year']")).sendKeys("2022");
+		driver.findElement(By.xpath("//button[@onclick='purchaseOrder()']")).click();
+		
+		Thread.sleep(2000);
+		
+				
+	}
+	
+	public void purchaseItems() throws InterruptedException {
+		
+		
+		Thread.sleep(2000);
+		
+		String successHeader = driver.findElement(By.xpath("//div[@class='sweet-alert  showSweetAlert visible']/h2")).getText();
+		String purchaseDetails = driver.findElement(By.xpath("//div[@class='sweet-alert  showSweetAlert visible']/p")).getText();
+		
+		System.out.println("Detailes of Purchased Items : " + successHeader + "\n" + purchaseDetails );
+		
+		driver.findElement(By.cssSelector("button.confirm.btn.btn-lg.btn-primary")).click();
+		
 	}
 	
 }

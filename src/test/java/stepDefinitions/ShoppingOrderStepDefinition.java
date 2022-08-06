@@ -9,7 +9,7 @@ import pages.HomePage;
 
 public class ShoppingOrderStepDefinition extends TestBase {
 
-	HomePage loginpage;
+	HomePage homepage;
 	AddItemToCart addnewItem;
 	
 	
@@ -18,8 +18,8 @@ public class ShoppingOrderStepDefinition extends TestBase {
 	@Given("Login into App with Username as {string} and Password as {string}")
 	public void login_into_app_with_username_as_and_password_as(String string, String string2) throws InterruptedException {
 		initialize();
-		//loginpage = new HomePage();
-		//loginpage.LoginToPage();
+		homepage = new HomePage();
+		homepage.LoginToPage();
 	}
 	
 	@When("Add an item to cart")
@@ -42,7 +42,7 @@ public class ShoppingOrderStepDefinition extends TestBase {
 	@When("List of Items should be available in cart")
 	public void list_of_items_should_be_available_in_cart() throws InterruptedException {
 		addnewItem = new AddItemToCart();
-		System.out.println("Number of Items in the Cart : " + addnewItem.cartSize());
+		System.out.println("Number of Items in the Cart before Deleting an Item : " + addnewItem.cartSize());
 	}
 	@Then("Delete an item from Cart")
 	public void delete_an_item_from_cart() throws InterruptedException {
@@ -59,15 +59,24 @@ public class ShoppingOrderStepDefinition extends TestBase {
 
 	
 	@Given("Items should be available in Cart")
-	public void items_should_be_available_in_cart() {
-	    
+	public void items_should_be_available_in_cart() throws InterruptedException {
+		addnewItem = new AddItemToCart();
+		System.out.println("Number of Items in the Cart to Place Order : " + addnewItem.cartSize());
 	}
 	@When("Place Order")
-	public void place_order() {
+	public void place_order() throws InterruptedException {
+		
+		addnewItem = new AddItemToCart();
+		addnewItem.placeOrder();
 	  
 	}
 	@Then("Purchase Items")
-	public void purchase_items() {
+	public void purchase_items() throws InterruptedException {
 	   
+		addnewItem = new AddItemToCart();
+		addnewItem.purchaseItems();
+		
+		homepage.logOut();
+		
 	}
 }

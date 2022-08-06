@@ -20,6 +20,9 @@ public class HomePage extends TestBase{
 	@FindBy(id = "loginpassword")
 	WebElement LoginPassword;
 	
+	@FindBy(css = "#logout2")
+	WebElement Logout;
+	
 	
 	
 	
@@ -33,9 +36,9 @@ public class HomePage extends TestBase{
 	//Login
 	public void LoginToPage() throws InterruptedException {
 		Login.click();
-		//driver.switchTo().alert();
+		
 		Thread.sleep(2000);
-		//driver.findElement(By.xpath("//input[@id='loginusername']")).sendKeys("test1");
+		
 		LoginUserName.sendKeys("testuservalid");
 		LoginPassword.sendKeys("Password1");
 		driver.findElement(By.xpath("(//button[@class = 'btn btn-primary'])[3]")).click();
@@ -47,24 +50,16 @@ public class HomePage extends TestBase{
 		
 	}
 	
-	//Actions
 	
-	//select Category
-	
-	//searchProduct
-	
-
 	public String getPageTitle() {
-		// TODO Auto-generated method stub
-		
+			
 		return driver.getTitle();
 	}
 	
-	//compare products
-	//view wishlist
-	//navigate to cart
-	
-	//Git Changes Modified in Phase 2 Branch
-	//Changes done in Master Branch
+	//Logout	
+	public void logOut() throws InterruptedException {
+		Thread.sleep(2000);
+		Logout.click();
+	}
 
 }
