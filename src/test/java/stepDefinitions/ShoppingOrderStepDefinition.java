@@ -6,11 +6,13 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.AddItemToCart;
 import pages.HomePage;
+import pages.ItemsInCart;
 
 public class ShoppingOrderStepDefinition extends TestBase {
 
 	HomePage homepage;
 	AddItemToCart addnewItem;
+	ItemsInCart itemsInCart;
 	
 	
 	//Add ITem to the Cart
@@ -32,22 +34,22 @@ public class ShoppingOrderStepDefinition extends TestBase {
 	}
 	@Then("Items must be added to cart")
 	public void items_must_be_added_to_cart() throws InterruptedException {
-		addnewItem = new AddItemToCart();
-		System.out.println("First Items in the Cart : " + addnewItem.cartDetails()[0]);
-		System.out.println("Second Items in the Cart : " + addnewItem.cartDetails()[1]);
+		itemsInCart = new ItemsInCart();
+		System.out.println("First Items in the Cart : " + itemsInCart.cartDetails()[0]);
+		System.out.println("Second Items in the Cart : " + itemsInCart.cartDetails()[1]);
 	}
 	
 	//Delete an item
 	
 	@When("List of Items should be available in cart")
 	public void list_of_items_should_be_available_in_cart() throws InterruptedException {
-		addnewItem = new AddItemToCart();
-		System.out.println("Number of Items in the Cart before Deleting an Item : " + addnewItem.cartSize());
+		itemsInCart = new ItemsInCart();
+		System.out.println("Number of Items in the Cart before Deleting an Item : " + itemsInCart.cartSize());
 	}
 	@Then("Delete an item from Cart")
 	public void delete_an_item_from_cart() throws InterruptedException {
-		addnewItem = new AddItemToCart();
-		addnewItem.deleteItemFromCart();
+		itemsInCart = new ItemsInCart();
+		itemsInCart.deleteItemFromCart();
 	}
 
 
@@ -60,21 +62,21 @@ public class ShoppingOrderStepDefinition extends TestBase {
 	
 	@Given("Items should be available in Cart")
 	public void items_should_be_available_in_cart() throws InterruptedException {
-		addnewItem = new AddItemToCart();
-		System.out.println("Number of Items in the Cart to Place Order : " + addnewItem.cartSize());
+		itemsInCart = new ItemsInCart();
+		System.out.println("Number of Items in the Cart to Place Order : " + itemsInCart.cartSize());
 	}
 	@When("Place Order")
 	public void place_order() throws InterruptedException {
 		
-		addnewItem = new AddItemToCart();
-		addnewItem.placeOrder();
+		itemsInCart = new ItemsInCart();
+		itemsInCart.placeOrder();
 	  
 	}
 	@Then("Purchase Items")
 	public void purchase_items() throws InterruptedException {
 	   
-		addnewItem = new AddItemToCart();
-		addnewItem.purchaseItems();
+		itemsInCart = new ItemsInCart();
+		itemsInCart.purchaseItems();
 		
 		homepage.logOut();
 		
