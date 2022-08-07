@@ -4,7 +4,7 @@ Feature: Place Order from DemoBlaze
 Scenario: Add items to cart
 Given Login into App with Username as "testuservalid" and Password as "Password1"
 When Add an item to cart
-Then Items must be added to cart
+#Then Items must be added to cart
 
 
 @DeleteItem

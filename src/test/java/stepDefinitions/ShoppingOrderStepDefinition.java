@@ -1,6 +1,15 @@
 package stepDefinitions;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+
 import base.TestBase;
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -18,20 +27,32 @@ public class ShoppingOrderStepDefinition extends TestBase {
 	//Add ITem to the Cart
 	
 	@Given("Login into App with Username as {string} and Password as {string}")
-	public void login_into_app_with_username_as_and_password_as(String string, String string2) throws InterruptedException {
+	public void login_into_app_with_username_as_and_password_as(String username, String password) throws InterruptedException {
 		initialize();
-		homepage = new HomePage();
-		homepage.LoginToPage();
+//		homepage = new HomePage();
+//		homepage.LoginToPage(username,password);
+		
 	}
+	
+//	@When("Add an item to cart")
+//	public void add_an_item_to_cart() throws InterruptedException {
+//		addnewItem = new AddItemToCart();
+//		addnewItem.addFirstItemToCart();
+//		addnewItem.BackToHomePage();
+//		addnewItem.addSecondItemToCart();
+//		
+//	}
 	
 	@When("Add an item to cart")
 	public void add_an_item_to_cart() throws InterruptedException {
 		addnewItem = new AddItemToCart();
-		addnewItem.addFirstItemToCart();
+		String item1 = "Sony xperia z5";
+		String item2 = "Nexus 6";
+		addnewItem.selectItemsFromHomePage(item1);
 		addnewItem.BackToHomePage();
-		addnewItem.addSecondItemToCart();
-		
+		addnewItem.selectItemsFromHomePage(item2);
 	}
+	
 	@Then("Items must be added to cart")
 	public void items_must_be_added_to_cart() throws InterruptedException {
 		itemsInCart = new ItemsInCart();
@@ -80,5 +101,15 @@ public class ShoppingOrderStepDefinition extends TestBase {
 		
 		homepage.logOut();
 		
+	}
+	
+	@After
+	public void attachScreenshot(Scenario scenario) throws IOException {
+		if(scenario.isFailed()) {
+			TakesScreenshot screen = (TakesScreenshot)driver;
+			File file = screen.getScreenshotAs(OutputType.FILE);
+			byte[] imgByte = FileUtils.readFileToByteArray(file);
+			scenario.attach(imgByte, "image/png", "image1");
+		}
 	}
 }

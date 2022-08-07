@@ -7,7 +7,7 @@ import io.cucumber.testng.CucumberOptions;
 		publish = true,
 		features = "src/test/resources/features/",
 		glue = {"stepDefinitions"},
-		tags = "@PlaceOrder",
+		tags = "@AddItem",
 		monochrome = true,
 		dryRun = false,
 		plugin = {"pretty", 

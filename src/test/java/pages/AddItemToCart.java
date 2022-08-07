@@ -1,9 +1,15 @@
 package pages;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
 
@@ -12,7 +18,12 @@ import base.TestBase;
 public class AddItemToCart extends TestBase{
 
 	
-
+	@FindBy(css = "div.col-lg-4.col-md-6.mb-4")
+	List<WebElement> PageItems;
+	
+	@FindBy(xpath = "(//div[@class = 'col-lg-4 col-md-6 mb-4']/div/div/h4/a)")
+	List<WebElement> itemName;
+	
 	@FindBy(xpath="(//div[@class='card h-100'])[1]/div[1]/h4/a")
 	WebElement item1;
 	
@@ -88,6 +99,57 @@ public class AddItemToCart extends TestBase{
 		alertPopUp.accept();
 	}
 	
-	
+	public void selectItemsFromHomePage(String addProduct) throws InterruptedException {
+		int numberOfItemsOnHomePage = itemName.size();
+		System.out.println("Number of Items on Home Page : "+numberOfItemsOnHomePage);
+		
+//		itemName
+		boolean flag = true;
+		for(int i=1; i<=numberOfItemsOnHomePage; i++ ) {
+			
+			
+//				System.out.println("Item found on Home Page : "+ itemName.get(i).getText());
+				
+			if(itemName.get(i).getText().equalsIgnoreCase(addProduct)) {
+				itemName.get(i).click();
+				Thread.sleep(2000);
+				addToCartBtn.click();
+				
+				Thread.sleep(2000);
+				
+				Alert alertPopUp = driver.switchTo().alert();
+				//alertPopUp.wait();
+				Thread.sleep(2000);
+				String itemAddedToCart = alertPopUp.getText();
+				System.out.println("Pop up message : " + itemAddedToCart);
+				alertPopUp.accept();
+				break;
+			}
+
+						
+		}
+//		if(flag) {
+//			itemName.get(1).sendKeys(Keys.PAGE_DOWN);
+//			Thread.sleep(2000);
+//			driver.findElement(By.cssSelector("button.page-link#next2")).click();
+//			Thread.sleep(2000);
+//			
+//			int itemsOnNextPage = itemName.size();
+//			
+//			for(int i=1; i<=itemsOnNextPage; i++ ) {
+//				
+//				
+////				System.out.println("Item found on Home Page : "+ itemName.get(i).getText());
+//				
+//			if(itemName.get(i).getText().equalsIgnoreCase("2017 Dell 15.6 Inch")) {
+//				itemName.get(i).click();
+//				flag = false;
+//			}
+//		}
+//		
+//		
+//	}
+//	
 		
 }
+	}

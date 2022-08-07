@@ -34,13 +34,13 @@ public class HomePage extends TestBase{
 
 	
 	//Login
-	public void LoginToPage() throws InterruptedException {
+	public void LoginToPage(String username, String password) throws InterruptedException {
 		Login.click();
 		
 		Thread.sleep(2000);
 		
-		LoginUserName.sendKeys("testuservalid");
-		LoginPassword.sendKeys("Password1");
+		LoginUserName.sendKeys(username);
+		LoginPassword.sendKeys(password);
 		driver.findElement(By.xpath("(//button[@class = 'btn btn-primary'])[3]")).click();
 		
 		Thread.sleep(2000);
