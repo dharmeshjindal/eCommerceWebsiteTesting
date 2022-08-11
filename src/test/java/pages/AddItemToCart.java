@@ -24,17 +24,17 @@ public class AddItemToCart extends TestBase{
 	@FindBy(xpath = "(//div[@class = 'col-lg-4 col-md-6 mb-4']/div/div/h4/a)")
 	List<WebElement> itemName;
 	
+	@FindBy(css = "button.page-link#next2")
+	WebElement nextButton;
+	
 	@FindBy(xpath="(//div[@class='card h-100'])[1]/div[1]/h4/a")
 	WebElement item1;
-	
-	@FindBy(xpath="(//div[@class='card h-100'])[2]")
-	WebElement item2;
 	
 	@FindBy(css = "a.btn.btn-success.btn-lg")
 	WebElement addToCartBtn;
 	
 	
-	@FindBy(xpath = "//a[text()='Home ']") //(//a[@class='nav-link'])[1]
+	@FindBy(xpath = "//a[text()='Home ']") 
 	WebElement LinkToHomePage;
 	
 	
@@ -83,73 +83,70 @@ public class AddItemToCart extends TestBase{
 	}
 	
 	}
-	public void addSecondItemToCart() throws InterruptedException {
-	Thread.sleep(2000);
+	
+	public void addItems(String addProduct) throws InterruptedException {
+		int numberOfItemsOnHomePage = itemName.size();
+		System.out.println("Number of Items on Home Page : "+numberOfItemsOnHomePage);
+		itemName.get(0).sendKeys(Keys.PAGE_DOWN);
+		boolean nextButtonDisplayed = nextButton.isDisplayed();
+		itemName.get(0).sendKeys(Keys.PAGE_UP);
+		boolean flag =false;
 		
-		Actions actions = new Actions(driver);
-		actions.moveToElement(item2).click().perform();
-		Thread.sleep(2000);
-		addToCartBtn.click();
 		
+		do {
+		
+			
+			flag = findProduct(numberOfItemsOnHomePage,addProduct,flag);
+				
+			if(flag){
+				
+				break;
+			}
+			else{			
+				itemName.get(0).sendKeys(Keys.PAGE_DOWN);
+				nextButtonDisplayed = nextButton.isDisplayed();
+				Thread.sleep(2000);
+				nextButton.click();
+				Thread.sleep(2000);
+				numberOfItemsOnHomePage = itemName.size();
+				
+			}
+			
+		} while(nextButtonDisplayed);
+	}
+			
+	
+	
+	public boolean findProduct(int numberOfItemsOnHomePage, String addProduct, boolean flag) throws InterruptedException {
+		
+		for(int i=0; i<numberOfItemsOnHomePage; i++ ) {
+						
+			if(itemName.get(i).getText().equalsIgnoreCase(addProduct)) {
+				System.out.println(addProduct + " found on the Home Page at the index..."+i);
+				flag= true;
+				addItem(i);
+				break;
+			}	
+			
+		}
+
+		return flag;
+		
+	}
+
+	
+	public void addItem(int i) throws InterruptedException {
+		
+		itemName.get(i).click();
 		Thread.sleep(2000);
+		addToCartBtn.click();		
+		Thread.sleep(2000);
+		
 		Alert alertPopUp = driver.switchTo().alert();
+		//alertPopUp.wait();
 		Thread.sleep(2000);
 		String itemAddedToCart = alertPopUp.getText();
 		System.out.println("Pop up message : " + itemAddedToCart);
 		alertPopUp.accept();
 	}
-	
-	public void selectItemsFromHomePage(String addProduct) throws InterruptedException {
-		int numberOfItemsOnHomePage = itemName.size();
-		System.out.println("Number of Items on Home Page : "+numberOfItemsOnHomePage);
-		
-//		itemName
-		boolean flag = true;
-		for(int i=1; i<=numberOfItemsOnHomePage; i++ ) {
-			
-			
-//				System.out.println("Item found on Home Page : "+ itemName.get(i).getText());
-				
-			if(itemName.get(i).getText().equalsIgnoreCase(addProduct)) {
-				itemName.get(i).click();
-				Thread.sleep(2000);
-				addToCartBtn.click();
-				
-				Thread.sleep(2000);
-				
-				Alert alertPopUp = driver.switchTo().alert();
-				//alertPopUp.wait();
-				Thread.sleep(2000);
-				String itemAddedToCart = alertPopUp.getText();
-				System.out.println("Pop up message : " + itemAddedToCart);
-				alertPopUp.accept();
-				break;
-			}
-
-						
-		}
-//		if(flag) {
-//			itemName.get(1).sendKeys(Keys.PAGE_DOWN);
-//			Thread.sleep(2000);
-//			driver.findElement(By.cssSelector("button.page-link#next2")).click();
-//			Thread.sleep(2000);
-//			
-//			int itemsOnNextPage = itemName.size();
-//			
-//			for(int i=1; i<=itemsOnNextPage; i++ ) {
-//				
-//				
-////				System.out.println("Item found on Home Page : "+ itemName.get(i).getText());
-//				
-//			if(itemName.get(i).getText().equalsIgnoreCase("2017 Dell 15.6 Inch")) {
-//				itemName.get(i).click();
-//				flag = false;
-//			}
-//		}
-//		
-//		
-//	}
-//	
-		
-}
-	}
+}	

@@ -47,10 +47,20 @@ public class ShoppingOrderStepDefinition extends TestBase {
 	public void add_an_item_to_cart() throws InterruptedException {
 		addnewItem = new AddItemToCart();
 		String item1 = "Sony xperia z5";
-		String item2 = "Nexus 6";
-		addnewItem.selectItemsFromHomePage(item1);
+		String item2 = "Dell i7 8gb";
+		String item3 = "Nexus 6";
+		String item4 = "MacBook Pro";
+		String item5 = "Iphone 6 32gb";
+		
+		addnewItem.addItems(item1);
 		addnewItem.BackToHomePage();
-		addnewItem.selectItemsFromHomePage(item2);
+		addnewItem.addItems(item2);
+		addnewItem.BackToHomePage();
+		addnewItem.addItems(item3);
+		addnewItem.BackToHomePage();
+		addnewItem.addItems(item4);
+		addnewItem.BackToHomePage();
+		addnewItem.addItems(item5);
 	}
 	
 	@Then("Items must be added to cart")
